@@ -56,7 +56,8 @@ const num = Number("23");
 
 // 34. Function Declarations vs. Expressions
 // 1) function declaration
-function calcAge1(birthYear) {
+// 선언이지, 익명함수가 아니다.
+function calcAge1 (birthYear) {
   return 2037 - birthYear;
 }
 const age1 = calcAge1(1991);
@@ -255,7 +256,7 @@ console.log(friends.includes("23")); // false -> 타입이 다르므로 23과 "2
 
 // 42. Introduction to Objects
 // Objects: 객체. key-value pair로 이루어져있다. array와 다르게 순서는 중요하지 않고, key로 value를 찾는다.
-// key는 property라고도 한다. value에는 Expression이 들어간다.
+// value는 property라고도 한다. value에는 Expression이 들어간다.
 
 const jonasArray = [
   "Jonas",
@@ -279,7 +280,6 @@ const jonas = {
 
 // 43. Dot vs. Bracket Notation
 // 객체에서 value를 가져오는 두 가지 방법 . []
-*/
 const jonas = {
   firstName: "Jonas",
   lastName: "Schmedtmann",
@@ -322,5 +322,197 @@ if (jonas[interestedIn]) {
 
 // 4) 객체에 key-value pair 추가하기
 jonas.location = "Portugal";
-jonsa["twitter"] = "@jonasschmedtman"; // 마찬가지로 [] 안에는 Expression이면 뭐든 들어간다.
+jonas["twitter"] = "@jonasschmedtman"; // 마찬가지로 [] 안에는 Expression이면 뭐든 들어간다.
 console.log(jonas);
+
+// 5) Challenge
+// "Jonas has 3 friends, and his best friend is called Michael" 만들기
+console.log(
+  `${jonas.firstName} has ${jonas.friends.length} friends, and his best friend is called ${jonas.friends[0]}`
+);
+
+
+
+// 44. Object Methods
+const jonas = {
+  firstName: "Jonas",
+  lastName: "Schmedtmann",
+  birthYear: 1991,
+  job: "teacher",
+  friends: ["Michael", "Steven", "Peter"],
+  hasDriverLicense: true,
+
+  // 객체 안에 포함된 함수를 method라고 한다. 메서드는 또한 value이므로 property다. (익명함수은 Expression이므로 value로 쓸 수 있다.)
+  // this 키워드: 메서드를 호출하는 객체를 가리킨다. 코드를 중복으로 쓰는 것을 막아준다.
+  calcAge: function () {
+    console.log(this); // jonas 객체 출력
+    this.age = 2037 - this.birthYear; // 같은 객체 안의 property를 사용, 새로 할당
+    return this.age; // return은 선택
+  },
+  getSummary: function () {
+    return `${this.firstName} is a ${this.calcAge()}-year old ${
+      this.job
+    }, and he has ${this.hasDriverLicense ? "a" : "no"} driver's license`;
+  },
+};
+
+// * 함수 실행하는 2가지 방법
+// 함수를 불러오고, ()를 붙여 실행시켜야 한다.
+console.log(jonas.calcAge());
+console.log(jonas["calcAge"]());
+
+// jonas.calcAge()를 여러번 실행시켜서 그 때마다 jonas.age를 받을 필요 없이, 메서드로 계산 후 jonas.age에 저장해놓고 불러오면 된다.
+// 메서드를 여러 번 실행하게 되면 성능적으로 좋지 않을 수 있다.
+console.log(jonas.age);
+console.log(jonas.age);
+console.log(jonas.age);
+
+// Challenge
+// "Jonas is a 46-year old teacher, and he has a driver's license"
+console.log(jonas.getSummary());
+
+// Array는 객체이며, 그래서 .push(), .pop() 등의 메서드를 사용할 수 있다.
+
+
+
+// 46. Iteration: The for Loop
+// for loop: 반복작업을 해야 할 때, 중복코드를 만들지 않고 작성 가능하다. 모든 프로그래밍 언어에 공통적으로 존재한다.
+
+// console.log('Lifting weights repetition 1 🏋️‍♀️');
+// console.log('Lifting weights repetition 2 🏋️‍♀️');
+// console.log('Lifting weights repetition 3 🏋️‍♀️');
+// console.log('Lifting weights repetition 4 🏋️‍♀️');
+// console.log('Lifting weights repetition 5 🏋️‍♀️');
+// console.log('Lifting weights repetition 6 🏋️‍♀️');
+// console.log('Lifting weights repetition 7 🏋️‍♀️');
+// console.log('Lifting weights repetition 8 🏋️‍♀️');
+// console.log('Lifting weights repetition 9 🏋️‍♀️');
+// console.log('Lifting weights repetition 10 🏋️‍♀️');
+
+// for loop는 condition이 true면 끝나지않고 계속 실행된다.
+// rep 변수는 counter 역할
+// condition 검증은 매 반복 전에 일어난다.
+// 반복 후에 rep++가 일어난다.
+for (let rep = 1; rep <= 10; rep++) {
+  console.log(`Lifting weights repetition ${rep} 🏋️‍♀️`);
+}
+
+
+
+// 47. Looping Arrays, Breaking and Continuing
+// 1) for loop를 array 순회하는 데 사용
+const jonas = [
+  "Jonas",
+  "Schmedtmann",
+  2037 - 1991,
+  "teacher",
+  ["Michael", "Steven", "Peter"],
+  true,
+];
+
+// for loop을 사용하지 않는다면?
+// console.log(jonas[0])
+// console.log(jonas[1])
+// ...
+// console.log(jonas[4])
+// jonas[5]는 존재하지 않는다.
+
+// 사용 예시 1)
+const types = [];
+
+// array는 인덱스가 0부터 시작하기 때문에, counter i를 0으로 초기화시켰다.
+// 숫자를 하드코딩하지 않고 jonas.length로 써줘서, array의 길이가 변경되어도 요소 전체를 순회하도록 했다.
+// array의 type은 object다.
+for (let i = 0; i < jonas.length; i++) {
+  console.log(jonas[i], typeof jonas[i]);
+
+  // 새 array에 jonas 요소들의 type 이름을 넣기
+  // 새로운 요소를 넣을 때 쓸 수 있는 2가지 방법
+  // types[i] = typeof jonas[i];
+  types.push(typeof jonas[i]);
+}
+console.log(types);
+
+// 사용 예시 2)
+const years = [1991, 2007, 1969, 2020];
+const ages = [];
+
+// 숫자와 배열끼리는 연산할 수 없으므로, for loop로 배열의 요소들을 순회하여 계산한다.
+for (let i = 0; i < years.length; i++) {
+  ages.push(2037 - years[i]);
+}
+console.log(ages);
+
+// 3) continue and break
+// continue: 현재 반복을 끝내고 다음 반복으로 넘어간다.
+console.log("--- ONLY STRINGS ---");
+for (let i = 0; i < jonas.length; i++) {
+  if (typeof jonas[i] !== "string") continue;
+
+  console.log(jonas[i], typeof jonas[i]);
+}
+// break: 전체 반복 자체를 끝낸다.
+console.log("--- BREAK WITH NUMBER ---");
+for (let i = 0; i < jonas.length; i++) {
+  if (typeof jonas[i] === "number") break;
+
+  console.log(jonas[i], typeof jonas[i]);
+}
+
+
+
+// 48. Looping Backwards and Loops in Loops
+const jonas = [
+  "Jonas",
+  "Schmedtmann",
+  2037 - 1991,
+  "teacher",
+  ["Michael", "Steven", "Peter"],
+  true,
+];
+
+// 1) array의 인덱스 거꾸로 순회하기
+// 0, 1, ..., 4
+// 4, 3, ..., 0
+
+for (let i = jonas.length - 1; i >= 0; i--) {
+  console.log(i, jonas[i]);
+}
+
+// 2) for loop 내부에 또다른 for loop 만들기
+// exercise <= 3 으로 써도 같다.
+for (let exercise = 1; exercise < 4; exercise++) {
+  console.log(`-------- Starting exercise ${exercise}`);
+
+  // 내부 for loop에서도 바깥 for loop의 변수에 접근할 수 있다.
+  for (let rep = 1; rep < 6; rep++) {
+    console.log(`Exercise ${exercise}: Lifting weight repetition ${rep}`);
+  }
+}
+
+
+
+// 49. The while Loop
+// while loop: counter 변수에 구애되지 않고(몇 번 반복해야하는지 반드시 정할 필요가 없음) 조건만 가지기 때문에, for loop보다 유연하고 사용할 곳이 많다.
+// 1) while loop를 for loop와 똑같이 동작하게 하기
+for (let rep = 1; rep <= 10; rep++) {
+  console.log(`Lifting weights repetition ${rep} 🏋️‍♀️`);
+}
+
+let rep = 1;
+while (rep <= 10) {
+  console.log(`Lifting weights repetition ${rep} 🏋️‍♀️`);
+  rep++; // loop의 마지막 부분에서 counter를 증가시킨다.
+}
+
+// 2) 몇 번 반복되는지 정할 필요가 없는 경우 => while loop 사용
+// 반대로 몇 번 반복되는지 아는 경우 => for loop 사용
+let dice = Math.trunc(Math.random() * 6) + 1; // 1, 2, 3, 4, 5, 6 중 랜덤
+
+// 처음 dice가 6이면, 아예 while loop를 돌지 않는다.
+while (dice !== 6) {
+  console.log(`You rolled a ${dice}`);
+  dice = Math.trunc(Math.random() * 6) + 1; // 이 부분이 없으면 infinite loop로 빠진다.
+  if (dice === 6) console.log("Loop is about to end...");
+}
+*/
