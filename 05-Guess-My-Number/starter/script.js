@@ -39,7 +39,7 @@ document.querySelector('.number').textContent = 13;
 document.querySelector('.score').textContent = 10;
 
 document.querySelector('.guess').value = 23; // <input /> 칸 안의 내용물이 value
-console.log(document.querySelector('.quess').value);
+console.log(document.querySelector('.guess').value);
 */
 
 // 73. Handling Click Events
