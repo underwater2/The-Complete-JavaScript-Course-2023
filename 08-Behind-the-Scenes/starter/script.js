@@ -154,9 +154,52 @@
   - 브라우저가 꺼지거나 하여 완전히 finish되면 call stack이 비워진다.
 
 
-  
+
 92. Scope and The Scope Chain
+- scoping
+  - 프로그램에서 변수가 생성되고 접근되는 방식.
+  - 변수가 어디 있는가? 특정 변수에는 어디서 접근할 수 있는가? 등의 질문과 관련함
+- Lexical scoping
+  - Scoping은 함수와 코드 블럭{}의 배치에 따라서 달라진다는 규칙.
+- Scope
+  - 변수가 선언되는 공간 또는 환경(코드 내 위치)
+  - function Scope는 variable environment와 같다.
+  - 종류
+    - global scope
+      - 함수나 블럭에 포함되지 않는 곳에 선언된 변수는 global scope에 속한다.
+      - 어디서든 접근할 수 있다.
+    - function scope
+      - 함수 내에 선언된 변수는 그 함수 내부에서만 접근할 수 있다.
+      - local scope라고도 한다. (<-> global scope)
+      - 함수 선언 방식에 관계 없이, 모두 function scope를 만든다.
+    - block scope
+      - ES6부터 let, const와 함께 생겨났다.
+      - var는 function scope만 적용되어 오류를 자주 유발했다.
+        - var의 경우 가장 가까운 function scope에 포함된다.
+      - let, const는 block scope가 적용된다. ES6부터는 var는 사용하지 말자. 
+      - 호이스팅 방식
+        - var: 스코프의 시작 지점에서 선언과 메모리 확보(초기화)가 동시에 일어나, 값 할당 이전에 변수를 참조할 수 있다.
+        - let: 스코프의 시작 지점에서 선언만 진행한다. 초기화는 변수 선언문에 도달해서야 일어나기 때문에, 이때까지는 변수를 참조할 수 없다. (이 구간을 TDZ라고 부른다.)
+      - 이해안돼서 참고한 사이트-> https://poiemaweb.com/es6-block-scope
+- Scope of a variable
+  - 특정 변수에 접근할 수 있는 코드의 범위
+- Scope chain
+  - 함수도 변수이기 때문에, 묶어서 변수라고 지칭하겠다.
+  - 부모(바깥) 스코프의 변수들은 모두 참조 가능하다.
+    - 반대는 성립하지 않는다. 부모 스코프에서 자식(안쪽) 스코프의 변수는 절대 참조 불가.
+  - variable lookup: 현재 스코프에서 변수를 찾아내지 못하면, 한칸씩 바깥 스코프로 이동하면서 변수를 찾는다.
+    - 찾아내면 그 변수를 copy하지 않고 그대로 사용한다.
+    - 끝까지 찾지 못하면 에러가 뜬다.
+  - 형제 scope의 경우 서로의 변수를 참조하지 못한다.
+- Scope chain vs Call stack
+  - 각 scope = (해당 execution context의 variable environment + 그 부모 scope들의 variable environment들)
+  - scope chain은 함수가 call되는 순서(= call stack에 execution context들이 쌓인 순서)와는 무관하다.
+    - 1함수 안에서 2함수를 call했다고 해서, 2함수에서 1함수의 변수를 꼭 참조할 수 있는 건 아님. 부모 자식 관계는 함수들의 블록의 위치 관계에 따라 결정된다.
 
 
+    
+----------------------------
 
+93. Scoping in Practice
+부터는 notion에 정리
 */
