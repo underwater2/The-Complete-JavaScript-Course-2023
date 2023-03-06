@@ -537,7 +537,45 @@ console.log('me:', me); // me.age는 변경한 적이 없는데 27임
 */
 
 // [100. Primitives vs. Objects in Practice]
+// 1. Primitive types
 let lastName = 'Williams';
 let oldLastName = lastName;
 lastName = 'Davis';
-console.log(lastName, oldLastName);
+console.log(lastName, oldLastName); // Davis Williams
+
+// 2. Reference types
+// object의 property를 바꾸는 것은 heap에 저장된 value(object)를 변경하는 것이다.
+// const, let의 경우 stack에 저장된 value(heap 주소)에만 관련이 있기 때문에, const로 선언해도 property를 바꿀 수 있다.
+// 단, const로 선언했을 때 새로운 객체를 재할당할 수 없다. 그 객체는 heap에 새로운 메모리 주소에 들어가고 따라서 stack에 value가 바뀌기 때문
+const jessica = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+};
+const marriedJessia = jessica;
+marriedJessia.lastName = 'Davis';
+console.log('Before marriage:', jessica);
+console.log('After marriage:', marriedJessia);
+
+// error남
+// const일 때 새로운 객체 할당은 불가능
+// marriedJessia = {}
+
+// 3. Copying objects
+const jessica2 = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+  family: ['Alice', 'Bob'],
+};
+
+// Object.assign(): 두 객체를 머지한다. 두 객체의 property를 모아 만든 새로운 객체를 반환한다.
+// - deep clone이 아닌 shallow copy이기 때문에 한계가 있다.
+// - first-level은 잘 복사하지만 Array 같은 객체가 property라면 이것까지는 복사하지 못한다.
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+
+jessicaCopy.family.push('Mary');
+jessicaCopy.family.push('John');
+console.log('Before marriage:', jessica2);
+console.log('After marriage:', jessicaCopy);
