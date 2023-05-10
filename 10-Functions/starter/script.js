@@ -30,7 +30,7 @@ createBooking('LH123', 5);
 // 4. 중간값을 default value로 하고, 뒤 값을 파라미터 지정하고 싶을 경우 undefined를 사용한다
 // - argument를 지정하지 않았을때, 해당 파라미터는 undefined가 되므로 결국 같은 것이다.
 createBooking('LH123', undefined, 1000);
-*/
+
 
 
 // [129. How Passing Arguments Works: Value vs. Reference]
@@ -106,3 +106,87 @@ checkIn(flight, jonas);
 
 
 // [131. Functions Accepting Callback Functions]
+// higher-order function을 직접 써보자
+
+// 예시 1.
+const oneWord = function(str) {
+  return str.replace(/ /g, '').toLowerCase();
+};
+
+const upperFirstWord = function(str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+// 함수는 value이다. 따라서 input 값으로 넣어도 호출되지 않고 전달만할 수 있다.
+// parameter로 들어간 함수는 callback function이라고 부른다.
+const transformer = function(str, fn) {
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+
+  // 함수가 메서드를 가지듯이, property도 가진다. name property는 함수의 이름이고, js의 모든 함수에서 쓸 수 있다.
+  console.log(`Transformed by: ${fn.name}`);
+};
+transformer('JavaScript is the best!', upperFirstWord);
+transformer('JavaScript is the best!', oneWord);
+
+// 예시 2.
+// js는 callback function을 항상 쓰고있으며, 매우 유용하다.
+// - 코드를 쪼개서 쓸 수 있다.
+// - 추상화를 할 수 있게 해준다.
+//   - 추상화 레벨을 한단계 더 올려서, 코드의 모든 디테일에 신경쓰지 않아도 되도록 만드는 것
+//   - 위의 예시에서 transformaer는 추상화 레벨이 높다. str을 어떻게 변경하든 신경쓰지 않는다. <- 고차함수라는 용어와 일맥상통한다.
+//   - oneWord, upperFirstWord는 추상화 레벨이 낮다.
+const high5 = function() {
+  console.log("👏");
+};
+document.body.addEventListener('click', high5);
+
+// 예시 3.
+['Jonas', 'Martha', 'Adam'].forEach(high5); // 👏 3번
+
+
+
+// [132. Functions Returning Functions]
+// 함수를 return하는 함수의 예시
+// - functional programming에서 유용하게 사용된다. 나중에 설명 예정
+const greet = function(greeting) {
+  return function(name) {
+    console.log(`${greeting} ${name}`);
+  }
+};
+
+// closure 때문에 처음에 저장한 greeting 내용이 그대로 남아있다.
+// closure: js가 가진 개념. 어려워서 마지막쯤 설명 예정
+const greeterHey = greet('Hey');
+greeterHey('Jonas'); // Hey Jonas
+greeterHey('Steven'); // Hey Steven
+
+// 연달아 call할 수 있다.
+greet('Hello')('Jonas'); // Hello Jonas
+
+// Challenge (위의 greet 함수를 Arrow 함수로 바꿔보기)
+const greetArr = greeting => name => console.log(`${greeting} ${name}`);
+
+greetArr('Hi')('Jonas');
+*/
+
+
+
+// [133. The call and apply Methods]
+const lufthansa = {
+  airline: 'lufthansa',
+  iataCode: 'LH',
+  // 옛날 방식 대신 개선된 object litheral syntax 방식을 썼다.
+  // book: function() {}
+  book(flightNum, name) {
+    console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`);
+  },
+};
+
+// this는 메서드를 호출한 바로 그 객체를 가리킨다.
+lufthansa(239, 'Jonas');
+lufthansa(635, 'Smith');
+
+// 3:45
+
